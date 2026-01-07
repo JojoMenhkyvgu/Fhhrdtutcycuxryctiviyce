@@ -26,6 +26,37 @@ function getRandomArbitrary(min, max) {
 bot.loadPlugin(cmd)
 
 
+const express = require("express");
+const mineflayer = require("mineflayer");
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+// мини-сайт
+app.get("/", (req, res) => {
+  res.send("AFK bot is running");
+});
+
+// запуск сайта
+app.listen(PORT, () => {
+  console.log("Web server started on port " + PORT);
+});
+
+
+// ───── Minecraft бот ─────
+const bot = mineflayer.createBot({
+  host: "АДРЕС_СЕРВЕРА",
+  port: 25565,
+  username: "AFK_Bot"
+});
+
+bot.on("login", () => {
+  console.log("Bot logged in");
+});
+
+bot.on("error", err => console.log(err));
+bot.on("end", () => console.log("Bot disconnected"));
+
 
 bot.on('login',function(){
 	console.log("Logged In")
@@ -71,4 +102,5 @@ bot.on('spawn',function() {
 bot.on('death',function() {
     bot.emit("respawn")
 });
+
 
